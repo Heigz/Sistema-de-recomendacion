@@ -4,7 +4,7 @@ from controllers.controllerPreferencias import preferencias_blueprint
 app = Flask(__name__)
 
 
-@app.route("/home")
+@app.route("/")
 def home():
     return render_template("preferenciasFormulario.html")
 
