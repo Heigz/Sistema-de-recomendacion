@@ -1,8 +1,34 @@
 import numpy as np
 import re, random
+import os
 
 
 def leerBase():
+    """
+    Funcion que leer una base de conocimiento y la transforma en un arreglo de filas
+    """
+    datos = []
+
+    # Obtener la ruta del directorio actual del script
+    current_directory = os.path.dirname(__file__)
+
+    # Construir la ruta al archivo CSV
+    csv_file_path = os.path.join(current_directory, "IA-Recomendaciones.csv")
+
+    # Abrir el archivo CSV
+    archivo = open(csv_file_path, "r")
+
+    try:
+        next(archivo)
+        for linea in archivo:
+            aux = linea.rstrip("\n")
+            newLinea = aux.split(",")
+            datos.append(newLinea)
+    finally:
+        archivo.close()
+
+    return datos
+
     """
     Funcion que leer una base de conocimiento y la transforma en un arreglo de filas
     """
@@ -76,6 +102,8 @@ def matchPreference(preferencia, conocimiento):
     Calcula la similitud entre el vector preferencia y los vectores en el conocimiento
     y devuelve el vector más cercano a preferencia, junto con su índice.
     """
+    # LINEA QUE AGREGO ROGER XDXD
+    conocimiento = obtenerDF(leerBase())
 
     # Convertir preferencia a un array de numpy
     preferencia = np.array(preferencia)
@@ -92,7 +120,8 @@ def matchPreference(preferencia, conocimiento):
     print("Índice del vector más cercano:", indice_minimo)
     print(get_first_column(indice_minimo))
 
-    return vector_recomendado
+    # return vector_recomendado cambio by roger xd
+    return get_first_column(indice_minimo)
 
 
 def get_first_column(row_number):
