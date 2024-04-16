@@ -1,0 +1,98 @@
+body {
+    background-color: #232946;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: white;
+    font-weight: bold;
+    margin-top: 4rem;
+}
+
+
+.form-container {
+    max-width: 1200px;
+    margin-top: 45px;
+    /* text-align: center; */
+    /* align-items: center; */
+    margin-bottom: 20px;
+}
+
+.section-container {
+    background-color: #b8c1ec;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    max-width: 100;
+}
+
+label {
+    margin-left: 0.75rem;
+}
+
+input {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.btn-tam {
+    width: 200px;
+    height: 50px;
+    margin-bottom: 100px;
+    font-weight: bold;
+    background-color: #f9bc60;
+    color: black;
+}
+
+.btn-tam:hover {
+    background-color: #daa75b;
+    color: black;
+    scale: 1.1;
+}
+
+
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    width: 45rem;
+    height: 25rem;
+    text-align: center;
+    background-color: #b8c1ec;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-text {
+    margin-top: 1rem;
+    font-size: large;
+}
+
+.btn {
+    width: 15rem;
+    margin-top: 1rem;
+    background-color: #f9bc60;
+    color: black;
+    font-weight: bold;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #daa75b;
+    color: black;
+    scale: 1.1;
+}
