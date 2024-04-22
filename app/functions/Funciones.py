@@ -1,7 +1,7 @@
 import numpy as np
 import re, random
 import os
-
+import math
 
 def leerBase():
     """
@@ -27,23 +27,6 @@ def leerBase():
     finally:
         archivo.close()
 
-    return datos
-
-    """
-    Funcion que leer una base de conocimiento y la transforma en un arreglo de filas
-    """
-    datos = []
-    archivo = open(
-        "IA-Recomendaciones.csv", "r"
-    )  # Reemplaza 'nombre_archivo.txt' con la ruta y nombre de tu archivo
-    try:
-        next(archivo)
-        for linea in archivo:
-            aux = linea.rstrip("\n")
-            newLinea = aux.split(",")
-            datos.append(newLinea)
-    finally:
-        archivo.close()
     return datos
 
 
@@ -73,13 +56,37 @@ def obtenerDF(conocimiento):
         conocimiento[i] = [int(x) for x in conocimiento[i][1:]]
     return conocimiento
 
+def suma_total(conocimiento):
+    """
+    Suma los valores en cada columna del archivo csv.
+    """
+    sumas_filas = []
+
+    for fila in conocimiento:
+        suma_fila = sum(fila)
+        sumas_filas.append(suma_fila)
+
+    return sumas_filas
 
 def obtenerIDF(df, conocimiento):
     return 0
 
 
 def normalizar(conocimiento, total):
-    return conocimiento
+    """
+    Normaliza cada valor en las filas de conocimiento dividiendo por la raíz cuadrada de la suma total de las filas.
+    """
+     # Calcular la raíz cuadrada de cada valor en total
+    raices_cuadradas = [math.sqrt(valor) for valor in total]
+
+    # Dividir cada elemento de las filas por la raíz cuadrada
+    conocimiento_normalizado = []
+    for fila, raiz_cuadrada in zip(conocimiento, raices_cuadradas):
+        fila_normalizada = [valor / raiz_cuadrada for valor in fila]
+        conocimiento_normalizado.append(fila_normalizada)
+
+
+    return conocimiento_normalizado
 
 
 def matchUserInput(preferencia, c):
@@ -193,5 +200,8 @@ if __name__ == "__main__":
         0,
     ]
     conocimiento = obtenerDF(leerBase())
+    suma_total = suma_total(conocimiento)
     # print(conocimiento)
-    matchPreference(preferencia, conocimiento)
+    # print(suma_total)
+    print(normalizar(conocimiento, suma_total))
+    # matchPreference(preferencia, conocimiento)
