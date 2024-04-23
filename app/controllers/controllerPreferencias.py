@@ -9,6 +9,8 @@ def recomendar_auto():
     if request.method == "POST":
         # Marcas
         dodge = checkBoxAEntero(request.form.get("dodge"))
+        seat = checkBoxAEntero(request.form.get("seat"))
+        volkswagen = checkBoxAEntero(request.form.get("volkswagen"))
         porsche = checkBoxAEntero(request.form.get("porsche"))
         nissan = checkBoxAEntero(request.form.get("nissan"))
         mazda = checkBoxAEntero(request.form.get("mazda"))
@@ -88,6 +90,8 @@ def recomendar_auto():
 
         preferencias_usuario = [
             dodge,
+            seat,
+            volkswagen,
             porsche,
             nissan,
             mazda,
