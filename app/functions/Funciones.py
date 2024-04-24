@@ -149,12 +149,10 @@ def get_first_column(row_number):
 
 def get_all_column():
     """
-    Function that returns the first column of the CSV file, excluding the first row.
+    Function that returns the first column of the data returned by leerBase(), excluding the first row.
     """
-    with open("IA-Recomendaciones.csv", "r") as f:
-        reader = csv.reader(f)
-        next(reader)  # Se salta la primera celda
-        first_column = [row[0] for row in reader]
+    data = leerBase()
+    first_column = [row[0] for row in data[1:]]  # Skip the first row
     return first_column
 
 
