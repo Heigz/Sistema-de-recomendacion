@@ -144,7 +144,16 @@ def get_first_column(row_number):
     else:
         return None
 
-    import csv
+
+def get_first_column(row_number):
+    """
+    Obtiene el valor de la primera columna de la fila con el número dado.
+    """
+    data = leerBase()
+    if row_number < len(data):
+        return data[row_number][0]
+    else:
+        return None
 
 
 def get_all_column():
@@ -156,6 +165,7 @@ def get_all_column():
     return first_column
 
 
+# intereses por atributo
 def calculate_dot_product(random_vector, conocimiento):
     """
     Calculates the dot product between the random_vector and each column in the normalized conocimiento.
@@ -164,6 +174,49 @@ def calculate_dot_product(random_vector, conocimiento):
     conocimiento_transpose = np.transpose(conocimiento_normalizado)
     dot_products = [np.dot(random_vector, column) for column in conocimiento_transpose]
     return dot_products
+
+
+# DF
+def DF_Frecuency(conocimiento_normalizado):
+    """
+    Calculates the sum of non-zero attributes for each column in conocimiento_normalizado.
+    """
+    conocimiento_transpose = np.transpose(conocimiento_normalizado)
+    attribute_sums = [
+        sum(1 for value in column if value != 0) for column in conocimiento_transpose
+    ]
+    return attribute_sums
+
+
+def IDF(attribute_sums, conocimiento_normalizado):
+    """
+    Calculates the IDF for each attribute.
+    """
+    totalproductos = len(conocimiento_normalizado)
+    idf_values = [math.log(39 / df) if df != 0 else 0 for df in attribute_sums]
+    return idf_values
+
+
+def predictions(conocimiento_normalizado, idf_values, intereces_atributos):
+    """
+    Calculates the dot product of each row of conocimiento_normalizado with IDF and intereces_atributos vectors.
+    """
+    prediction_values = []  # Initialize an empty list to store the dot products
+
+    for (
+        row
+    ) in conocimiento_normalizado:  # Iterate over each row in conocimiento_normalizado
+        # Perform element multiplication of idf_values and intereces_atributos
+        # This is necessary to multiply corresponding elements of both vectors
+        multiplied_values = np.multiply(idf_values, intereces_atributos)
+
+        # Calculate the dot product using NumPy's dot product function
+        dot_product = np.dot(row, multiplied_values)
+
+        # Append the dot product to the prediction_values list
+        prediction_values.append(dot_product)
+
+    return prediction_values  # Return the list of dot products
 
 
 if __name__ == "__main__":
@@ -227,9 +280,20 @@ if __name__ == "__main__":
     print(random_vector)
     conocimiento = obtenerDF(leerBase())
     total = suma_total(conocimiento)
-    # print(conocimiento)
-    # print(get_all_column().__len__())
-    conocimiento_nomalizado = normalizar(conocimiento, total)
-    # matchPreference(preferencia, conocimiento)
-    intereces_atributos = calculate_dot_product(random_vector, conocimiento_nomalizado)
-    print(intereces_atributos)
+
+    conocimiento_normalizado = normalizar(conocimiento, total)
+    intereces_atributos = calculate_dot_product(random_vector, conocimiento_normalizado)
+    attribute_sums = DF_Frecuency(conocimiento_normalizado)
+    idf_values = IDF(attribute_sums, conocimiento_normalizado)
+
+    prediction_values = predictions(
+        conocimiento_normalizado, idf_values, intereces_atributos
+    )
+    print("====================================================")
+    print(intereces_atributos)  # IpA
+    print("====================================================")
+    print(attribute_sums)  # DF
+    print("====================================================")
+    print(idf_values)  # IDF
+    print("====================================================")
+    print(prediction_values)
