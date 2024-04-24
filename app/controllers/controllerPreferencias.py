@@ -154,5 +154,33 @@ def recomendar_auto():
         )
 
 
+@preferencias_blueprint.route("/recomendarPorAuto", methods=["GET", "POST"])
+def recomendar_auto_por_auto():
+    preferencias_por_auto = {}
+
+    if request.method == "POST":
+        # Inicializar un arreglo para almacenar las preferencias
+        preferencias_usuario = []
+
+        # Procesar los datos del formulario y almacenar las preferencias por auto
+        for auto, preference in request.form.items():
+            if auto.startswith("preferenciaAuto"):
+                if preference == "meGusta":
+                    preferencias_usuario.append(1)
+                elif preference == "noMeGusta":
+                    preferencias_usuario.append(-1)
+                else:
+                    preferencias_usuario.append(0)
+
+        # Redirigir o realizar otras acciones después de procesar los datos
+        # Aquí puedes agregar la lógica según tus necesidades
+        print("Preferencias del usuario:", preferencias_usuario)
+        return render_template("autoRecomendado.html")
+
+    else:
+        autos = get_all_column()
+        return render_template("preferenciasPorAutoFormulario.html", autos=autos)
+
+
 def checkBoxAEntero(value):
     return 1 if value == "on" else 0
