@@ -1,7 +1,9 @@
+import csv
 import numpy as np
 import re, random
 import os
 import math
+
 
 def leerBase():
     """
@@ -56,6 +58,7 @@ def obtenerDF(conocimiento):
         conocimiento[i] = [int(x) for x in conocimiento[i][1:]]
     return conocimiento
 
+
 def suma_total(conocimiento):
     """
     Suma los valores en cada columna del archivo csv.
@@ -68,6 +71,7 @@ def suma_total(conocimiento):
 
     return sumas_filas
 
+
 def obtenerIDF(df, conocimiento):
     return 0
 
@@ -76,7 +80,7 @@ def normalizar(conocimiento, total):
     """
     Normaliza cada valor en las filas de conocimiento dividiendo por la raíz cuadrada de la suma total de las filas.
     """
-     # Calcular la raíz cuadrada de cada valor en total
+    # Calcular la raíz cuadrada de cada valor en total
     raices_cuadradas = [math.sqrt(valor) for valor in total]
 
     # Dividir cada elemento de las filas por la raíz cuadrada
@@ -84,7 +88,6 @@ def normalizar(conocimiento, total):
     for fila, raiz_cuadrada in zip(conocimiento, raices_cuadradas):
         fila_normalizada = [valor / raiz_cuadrada for valor in fila]
         conocimiento_normalizado.append(fila_normalizada)
-
 
     return conocimiento_normalizado
 
@@ -140,6 +143,29 @@ def get_first_column(row_number):
         return data[row_number][0]
     else:
         return None
+
+    import csv
+
+
+def get_all_column():
+    """
+    Function that returns the first column of the CSV file, excluding the first row.
+    """
+    with open("IA-Recomendaciones.csv", "r") as f:
+        reader = csv.reader(f)
+        next(reader)  # Se salta la primera celda
+        first_column = [row[0] for row in reader]
+    return first_column
+
+
+def calculate_dot_product(random_vector, conocimiento):
+    """
+    Calculates the dot product between the random_vector and each column in the normalized conocimiento.
+    """
+    conocimiento_normalizado = normalizar(conocimiento, suma_total(conocimiento))
+    conocimiento_transpose = np.transpose(conocimiento_normalizado)
+    dot_products = [np.dot(random_vector, column) for column in conocimiento_transpose]
+    return dot_products
 
 
 if __name__ == "__main__":
@@ -199,9 +225,13 @@ if __name__ == "__main__":
         1,
         0,
     ]
+    random_vector = [random.choice([1, 0, -1]) for _ in range(39)]
+    print(random_vector)
     conocimiento = obtenerDF(leerBase())
-    suma_total = suma_total(conocimiento)
+    total = suma_total(conocimiento)
     # print(conocimiento)
-    # print(suma_total)
-    print(normalizar(conocimiento, suma_total))
+    # print(get_all_column().__len__())
+    conocimiento_nomalizado = normalizar(conocimiento, total)
     # matchPreference(preferencia, conocimiento)
+    intereces_atributos = calculate_dot_product(random_vector, conocimiento_nomalizado)
+    print(intereces_atributos)
