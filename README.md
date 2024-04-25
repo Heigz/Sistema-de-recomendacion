@@ -17,4 +17,5 @@ Si no funciona el entorno virtual, installar los paquetes necesarios con ```pip 
 
 5. Abrir la ruta ```http://127.0.0.1:5000``` en el navegador, y deberia aparecer el formulario.
 
-![image](https://github.com/Heigz/Sistema-de-recomendacion/assets/88741499/4a0c5376-2dfa-4f29-a219-6394fde08858)
+![image](https://github.com/Heigz/Sistema-de-recomendacion/assets/88741499/f15b7342-38c1-4bc0-87b2-0973d09c240d)
+
