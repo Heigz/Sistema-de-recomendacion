@@ -4,8 +4,8 @@ from functions.Funciones import *
 preferencias_blueprint = Blueprint("preferencias", __name__, url_prefix="/preferencias")
 
 
-@preferencias_blueprint.route("/recomendar", methods=["GET", "POST"])
-def recomendar_auto():
+@preferencias_blueprint.route("/recomendarPorOpciones", methods=["GET", "POST"])
+def recomendar_auto_por_opciones():
     if request.method == "POST":
         # Marcas
         dodge = checkBoxAEntero(request.form.get("dodge"))
@@ -152,6 +152,8 @@ def recomendar_auto():
         return render_template(
             "autoRecomendado.html", auto_recomendado=auto_recomendado
         )
+    else:
+        return render_template("preferenciasFormulario.html")
 
 
 @preferencias_blueprint.route("/recomendarPorAuto", methods=["GET", "POST"])
@@ -175,7 +177,22 @@ def recomendar_auto_por_auto():
         # Redirigir o realizar otras acciones después de procesar los datos
         # Aquí puedes agregar la lógica según tus necesidades
         print("Preferencias del usuario:", preferencias_usuario)
-        return render_template("autoRecomendado.html")
+        conocimiento = obtenerDF(leerBase())
+        total = suma_total(conocimiento)
+
+        conocimiento_normalizado = normalizar(conocimiento, total)
+        intereces_atributos = calculate_dot_product(preferencias_usuario, conocimiento_normalizado)
+        attribute_sums = DF_Frecuency(conocimiento_normalizado)
+        idf_values = IDF(attribute_sums, conocimiento_normalizado)
+
+        prediction_values = predictions(
+            conocimiento_normalizado, idf_values, intereces_atributos
+        )
+        max_index=find_max_value_index(preferencias_usuario, prediction_values)
+        lista_autos = get_all_column()
+        auto_recomendado = lista_autos[max_index]
+
+        return render_template("autoRecomendado.html",auto_recomendado=auto_recomendado)
 
     else:
         autos = get_all_column()

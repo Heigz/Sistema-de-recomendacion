@@ -12,10 +12,9 @@
 
 <body>
   <div class="container">
-    <a href="{{ url_for('preferencias.recomendar_auto_por_auto') }}" class="btn btn-success btn-tam">Recomendar Por auto</a>
     <h1>Sistema de Recomendacion de Autos basado en caracteristicas</h1>
 
-    <form class="form-container" action="{{url_for('preferencias.recomendar_auto')}}" method="post">
+    <form class="form-container" action="{{url_for('preferencias.recomendar_auto_por_opciones')}}" method="post">
       <!--Opciones de marcas favoritas-->
       <div class="section-container">
         <h4>Selecciona tus marcas favoritas</h4>
@@ -309,7 +308,7 @@
       </button>
 
     </form>
-    
+
   </div>
 </body>
 

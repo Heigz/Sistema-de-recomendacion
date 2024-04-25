@@ -12,7 +12,6 @@
 
 <body>
   <div class="container">
-    <a href="{{ url_for('home') }}" class="btn btn-success btn-tam">Recomendar Por Caracteristicas</a>
     <h1>Sistema de Recomendacion de Autos basado en Autos</h1>
 
     <form class="form-container" action="{{url_for('preferencias.recomendar_auto_por_auto')}}" method="post">
@@ -33,12 +32,13 @@
             <label for="noMeGusta{{ loop.index }}">No me gusta</label><br>
           </div>
           <div class="">
-            <input type="radio" id="ningunaSeleccion{{ loop.index }}" name="preferenciaAuto{{ loop.index }}" value="" checked>
+            <input type="radio" id="ningunaSeleccion{{ loop.index }}" name="preferenciaAuto{{ loop.index }}" value=""
+              checked>
             <label for="ningunaSeleccion{{ loop.index }}">Ninguna selección</label><br>
           </div>
         </div>
         {% endfor %}
-        
+
       </div>
 
       <button type="submit" class="btn btn-success btn-tam">
@@ -46,7 +46,7 @@
       </button>
 
     </form>
-    
+
   </div>
 </body>
 
