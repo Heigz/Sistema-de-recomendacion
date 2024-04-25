@@ -158,28 +158,34 @@ def get_first_column(row_number):
 
 def get_all_column():
     """
-    Function that returns the first column of the data returned by leerBase(), excluding the first row.
+    Función que devuelve la primera columna de los datos devueltos por leerBase(), excluyendo la primera fila.
     """
     data = leerBase()
-    first_column = [row[0] for row in data[1:]]  # Skip the first row
+    first_column = [row[0] for row in data]  # Ignora la primera fila
     return first_column
 
 
-# intereses por atributo
-def calculate_dot_product(random_vector, conocimiento):
+
+def calculate_dot_product(random_vector, conocimiento_normalizado):
     """
-    Calculates the dot product between the random_vector and each column in the normalized conocimiento.
+    Calculates the dot product between random_vector and each column in conocimiento_normalizado.
     """
-    conocimiento_normalizado = normalizar(conocimiento, suma_total(conocimiento))
-    conocimiento_transpose = np.transpose(conocimiento_normalizado)
-    dot_products = [np.dot(random_vector, column) for column in conocimiento_transpose]
+    # Convert conocimiento_normalizado to a NumPy array
+    conocimiento_np = np.array(conocimiento_normalizado)
+    
+    dot_products = []
+    for column in conocimiento_np.T:  # Iterate over each column of the transposed matrix
+        dot_product = np.dot(random_vector, column)
+        dot_products.append(dot_product)
     return dot_products
+
+
 
 
 # DF
 def DF_Frecuency(conocimiento_normalizado):
     """
-    Calculates the sum of non-zero attributes for each column in conocimiento_normalizado.
+    Calcula la suma de atributos no nulos para cada columna en conocimiento_normalizado.
     """
     conocimiento_transpose = np.transpose(conocimiento_normalizado)
     attribute_sums = [
@@ -190,7 +196,7 @@ def DF_Frecuency(conocimiento_normalizado):
 
 def IDF(attribute_sums, conocimiento_normalizado):
     """
-    Calculates the IDF for each attribute.
+    Calcula el IDF para cada atributo.
     """
     totalproductos = len(conocimiento_normalizado)
     idf_values = [math.log(39 / df) if df != 0 else 0 for df in attribute_sums]
@@ -199,24 +205,42 @@ def IDF(attribute_sums, conocimiento_normalizado):
 
 def predictions(conocimiento_normalizado, idf_values, intereces_atributos):
     """
-    Calculates the dot product of each row of conocimiento_normalizado with IDF and intereces_atributos vectors.
+    Calcula el producto punto de cada fila de conocimiento_normalizado con los vectores IDF e intereces_atributos.
     """
-    prediction_values = []  # Initialize an empty list to store the dot products
+    prediction_values = []  # Inicializar una lista para almacenar los valores de predicción
 
     for (
         row
-    ) in conocimiento_normalizado:  # Iterate over each row in conocimiento_normalizado
-        # Perform element multiplication of idf_values and intereces_atributos
-        # This is necessary to multiply corresponding elements of both vectors
+    ) in conocimiento_normalizado: 
+        # Hacer una multiplicación elemento por elemento de los valores IDF e intereces_atributos
+        # Esto se hace para cada fila en conocimiento_normalizado
         multiplied_values = np.multiply(idf_values, intereces_atributos)
 
-        # Calculate the dot product using NumPy's dot product function
         dot_product = np.dot(row, multiplied_values)
-
-        # Append the dot product to the prediction_values list
         prediction_values.append(dot_product)
 
-    return prediction_values  # Return the list of dot products
+    return prediction_values
+
+    #Funcion que toma el vector usuario y si hay un 0 en el vector usuario obtener su index y buscarlo en el otro vector, y guardar ese valor con su index en un diccionario.
+    #Luego agarrar el valor mas grande de ese diccionario y regresar su llave.
+
+def find_max_value_index(user_vector, other_vector):
+    """
+    Finds the index of the maximum value in other_vector corresponding to a 0 value in user_vector.
+    """
+    max_value_dict = {}  # Dictionary to store values from other_vector corresponding to 0 values in user_vector
+    
+    # Iterate over the indices and values of user_vector
+    for index, value in enumerate(user_vector):
+        # If the value in user_vector is 0
+        if value == 0:
+            # Store the value from other_vector with its index in the dictionary
+            max_value_dict[index] = other_vector[index]
+    
+    # Find the index with the maximum value in the dictionary
+    max_index = max(max_value_dict, key=max_value_dict.get)
+    
+    return max_index
 
 
 if __name__ == "__main__":
@@ -290,10 +314,18 @@ if __name__ == "__main__":
         conocimiento_normalizado, idf_values, intereces_atributos
     )
     print("====================================================")
+    print("Intereses por atributo:")
     print(intereces_atributos)  # IpA
     print("====================================================")
+    print("DF:")
     print(attribute_sums)  # DF
     print("====================================================")
+    print("IDF:")
     print(idf_values)  # IDF
     print("====================================================")
     print(prediction_values)
+    print("====================================================")
+    print("index auto recomendado:")
+    max_index=find_max_value_index(random_vector, prediction_values)
+    autos = get_all_column()
+    print(autos[max_index])

@@ -77,8 +77,19 @@ input {
     align-items: center;
 }
 
+.card-body.buttons {
+    flex-direction: initial;
+    gap: 1.5rem;
+
+}
+
+
 .card-title {
     font-weight: bold;
+}
+
+.card-title.home {
+    margin-top: 4.5rem;
 }
 
 .card-text {
@@ -104,4 +115,9 @@ input {
 .contenedor-auto {
     margin-top: 10px;
     margin-bottom: 30px;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 0.75rem;
 }

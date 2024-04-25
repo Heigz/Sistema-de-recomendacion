@@ -7,7 +7,8 @@
   
 **Para Windows:**
   - ejecutar ```.\env\bin\activate```
-  - en su defecto, installar los paquetes necesarios con ```pip install -r requirements.txt```
+  
+Si no funciona el entorno virtual, installar los paquetes necesarios con ```pip install -r requirements.txt```
 
 3. Correr la aplicación con ```python app.py```
 4. La aplicación correra en la ruta ```http://127.0.0.1:5000```
